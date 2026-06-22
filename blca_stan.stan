@@ -1,12 +1,18 @@
 // ============================================================
 // blca_stan.stan  —  BLCA in Stan (robustness check)
 // ============================================================
-// PLACEHOLDER / SLOT for your validated Stan model.
-// Paste here the exact Stan program you ran. As described in
-// Methods, label-switching was handled by constraining
-// sensitivity to exceed the complement of specificity for each
-// test, and conditional dependence among the three IgM-based
-// tests was modelled as a shared subject-level random effect.
-// Keep this file consistent with the R-hat / estimates reported
-// in Supplementary Table S6.
-// ============================================================
+// 
+install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+
+file <- file.path(cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
+mod  <- cmdstan_model(file)
+
+data_list <- list(N = 10, y = c(1,0,1,1,0,1,0,1,1,0))
+fit <- mod$sample(data = data_list, chains = 4, parallel_chains = 4)
+
+install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+library(cmdstanr)
+check_cmdstan_toolchain(fix = TRUE)
+print(fit$summary())
+install_cmdstan()
+cmdstanr::cmdstan_version()
