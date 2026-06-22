@@ -1,0 +1,28 @@
+# ============================================================
+# blca_independence.jags  —  Conditional independence model
+# ============================================================
+# PLACEHOLDER / SLOT for your validated JAGS model.
+# Paste here the exact model{} block you ran for the primary
+# (conditional independence) analysis, so the file in the repo
+# matches the code that produced the published estimates.
+#
+# Reference structure (Dendukuri & Joseph, 2001; see Methods):
+#   - latent disease status d[i] ~ dbern(pi)
+#   - each test t: P(positive | d) = d*Se[t] + (1-d)*(1-Sp[t])
+#   - informative priors on Se[t], Sp[t], pi (Supplementary Table S1)
+# ============================================================
+
+# model {
+#   for (i in 1:N) {
+#     d[i] ~ dbern(pi)
+#     for (t in 1:T) {
+#       p[i,t] <- d[i]*Se[t] + (1 - d[i])*(1 - Sp[t])
+#       y[i,t] ~ dbern(p[i,t])
+#     }
+#   }
+#   pi ~ dbeta(., .)
+#   for (t in 1:T) {
+#     Se[t] ~ dbeta(., .)
+#     Sp[t] ~ dbeta(., .)
+#   }
+# }

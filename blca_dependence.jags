@@ -1,0 +1,9 @@
+# ============================================================
+# blca_dependence.jags  —  Conditional dependence model
+# ============================================================
+# PLACEHOLDER / SLOT for your validated JAGS model.
+# Paste here the exact model{} block for the dependence analysis,
+# with within-class covariances among the three IgM-based tests
+# (ELISA IgM, LifeAssay, LeptoCheck), following Dendukuri & Joseph
+# (2001). MAT and SD Bioline modelled conditionally independent.
+# ============================================================
