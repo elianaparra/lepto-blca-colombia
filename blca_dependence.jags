@@ -7,3 +7,171 @@
 # (ELISA IgM, LifeAssay, LeptoCheck), following Dendukuri & Joseph
 # (2001). MAT and SD Bioline modelled conditionally independent.
 # ============================================================
+
+modelo_B_txt <- "
+model {
+
+  for (i in 1:N) {
+
+    z[i] ~ dbern(pi)
+
+    p1[i] <- z[i] * Se[1] + (1 - z[i]) * (1 - Sp[1])
+    Y_mat[i] ~ dbern(p1[i])
+
+    p4[i] <- z[i] * Se[4] + (1 - z[i]) * (1 - Sp[4])
+    Y_sd[i] ~ dbern(p4[i])
+
+    q111[i] <- z[i] * (Se[2]*Se[3]*Se[5] + Se[5]*covS23 + Se[3]*covS25 + Se[2]*covS35) +
+               (1-z[i]) * ((1-Sp[2])*(1-Sp[3])*(1-Sp[5]) + (1-Sp[5])*covC23 + (1-Sp[3])*covC25 + (1-Sp[2])*covC35)
+
+    q110[i] <- z[i] * (Se[2]*Se[3]*(1-Se[5]) - (1-Se[5])*covS23 - Se[3]*covS25 - Se[2]*covS35) +
+               (1-z[i]) * ((1-Sp[2])*(1-Sp[3])*Sp[5] + Sp[5]*covC23 - (1-Sp[3])*covC25 - (1-Sp[2])*covC35)
+
+    q101[i] <- z[i] * (Se[2]*(1-Se[3])*Se[5] - Se[5]*covS23 + (1-Se[3])*covS25 - Se[2]*covS35) +
+               (1-z[i]) * ((1-Sp[2])*Sp[3]*(1-Sp[5]) - (1-Sp[5])*covC23 + Sp[3]*covC25 - (1-Sp[2])*covC35)
+
+    q011[i] <- z[i] * ((1-Se[2])*Se[3]*Se[5] - Se[5]*covS23 - Se[3]*covS25 + (1-Se[2])*covS35) +
+               (1-z[i]) * (Sp[2]*(1-Sp[3])*(1-Sp[5]) - (1-Sp[5])*covC23 - (1-Sp[3])*covC25 + Sp[2]*covC35)
+
+    q100[i] <- z[i] * (Se[2]*(1-Se[3])*(1-Se[5]) - (1-Se[5])*covS23 - (1-Se[3])*covS25 + Se[2]*covS35) +
+               (1-z[i]) * ((1-Sp[2])*Sp[3]*Sp[5] - Sp[5]*covC23 - Sp[3]*covC25 + (1-Sp[2])*covC35)
+
+    q010[i] <- z[i] * ((1-Se[2])*Se[3]*(1-Se[5]) + (1-Se[5])*covS23 + Se[3]*covS25 - (1-Se[2])*covS35) +
+               (1-z[i]) * (Sp[2]*(1-Sp[3])*Sp[5] + Sp[5]*covC23 + (1-Sp[3])*covC25 - Sp[2]*covC35)
+
+    q001[i] <- z[i] * ((1-Se[2])*(1-Se[3])*Se[5] + Se[5]*covS23 - (1-Se[3])*covS25 - (1-Se[2])*covS35) +
+               (1-z[i]) * (Sp[2]*Sp[3]*(1-Sp[5]) + (1-Sp[5])*covC23 - Sp[3]*covC25 - Sp[2]*covC35)
+
+    q000[i] <- z[i] * ((1-Se[2])*(1-Se[3])*(1-Se[5]) + (1-Se[5])*covS23 + (1-Se[3])*covS25 + (1-Se[2])*covS35) +
+               (1-z[i]) * (Sp[2]*Sp[3]*Sp[5] + Sp[5]*covC23 + Sp[3]*covC25 + Sp[2]*covC35)
+
+    pat[i] ~ dcat(c(q111[i], q110[i], q101[i], q011[i],
+                    q100[i], q010[i], q001[i], q000[i]))
+  }
+
+  pi    ~ dbeta(2, 6)
+
+  Se[1] ~ dbeta(4,  6)
+  Sp[1] ~ dbeta(47, 1)
+  Se[2] ~ dbeta(8,  4)
+  Sp[2] ~ dbeta(12, 3)
+  Se[3] ~ dbeta(8,  4)
+  Sp[3] ~ dbeta(12, 3)
+  Se[4] ~ dbeta(4,  8)
+  Sp[4] ~ dbeta(12, 3)
+  Se[5] ~ dbeta(8,  4)
+  Sp[5] ~ dbeta(12, 3)
+
+  uS23 <- min(Se[2], Se[3]) - Se[2]*Se[3]
+  uS25 <- min(Se[2], Se[5]) - Se[2]*Se[5]
+  uS35 <- min(Se[3], Se[5]) - Se[3]*Se[5]
+
+  uC23 <- min(Sp[2], Sp[3]) - Sp[2]*Sp[3]
+  uC25 <- min(Sp[2], Sp[5]) - Sp[2]*Sp[5]
+  uC35 <- min(Sp[3], Sp[5]) - Sp[3]*Sp[5]
+
+  covS23_raw ~ dbeta(1, 1)
+  covS25_raw ~ dbeta(1, 1)
+  covS35_raw ~ dbeta(1, 1)
+  covC23_raw ~ dbeta(1, 1)
+  covC25_raw ~ dbeta(1, 1)
+  covC35_raw ~ dbeta(1, 1)
+
+  covS23 <- covS23_raw * uS23
+  covS25 <- covS25_raw * uS25
+  covS35 <- covS35_raw * uS35
+  covC23 <- covC23_raw * uC23
+  covC25 <- covC25_raw * uC25
+  covC35 <- covC35_raw * uC35
+}
+"
+
+# ── 4. Preparar patron observado ─────────────────────────────
+hacer_patron <- function(Y) {
+  y2 <- Y[, 2]
+  y3 <- Y[, 3]
+  y5 <- Y[, 5]
+  
+  case_when(
+    y2==1 & y3==1 & y5==1 ~ 1L,
+    y2==1 & y3==1 & y5==0 ~ 2L,
+    y2==1 & y3==0 & y5==1 ~ 3L,
+    y2==0 & y3==1 & y5==1 ~ 4L,
+    y2==1 & y3==0 & y5==0 ~ 5L,
+    y2==0 & y3==1 & y5==0 ~ 6L,
+    y2==0 & y3==0 & y5==1 ~ 7L,
+    y2==0 & y3==0 & y5==0 ~ 8L,
+    TRUE ~ NA_integer_
+  )
+}
+
+# ── 5. Guardar modelo ────────────────────────────────────────
+modelo_file_B <- tempfile(fileext = ".txt")
+writeLines(modelo_B_txt, modelo_file_B)
+
+# ── 6. Funcion para correr Modelo B ──────────────────────────
+correr_modelo_B <- function(Y, label) {
+  
+  cat("\n====================================\n")
+  cat("Corriendo Modelo B —", label, "\n")
+  cat("====================================\n")
+  
+  # Preparar vectores manejando NA
+  y_mat <- ifelse(is.na(Y[, 1]), NA_integer_, as.integer(Y[, 1]))
+  y_sd  <- ifelse(is.na(Y[, 4]), NA_integer_, as.integer(Y[, 4]))
+  
+  # Patron IgM — NA cuando cualquier test IgM es NA
+  pat_ok <- hacer_patron(Y)
+  pat_ok[is.na(pat_ok)] <- NA_integer_
+  
+  datos_jags <- list(
+    Y_mat = y_mat,
+    Y_sd  = y_sd,
+    pat   = pat_ok,
+    N     = nrow(Y)
+  )
+  
+  iniciales <- function() {
+    list(
+      pi         = runif(1, 0.15, 0.35),
+      Se         = c(0.40, 0.67, 0.67, 0.33, 0.67),
+      Sp         = c(0.98, 0.80, 0.80, 0.80, 0.80),
+      covS23_raw = runif(1, 0, 0.3),
+      covS25_raw = runif(1, 0, 0.3),
+      covS35_raw = runif(1, 0, 0.3),
+      covC23_raw = runif(1, 0, 0.3),
+      covC25_raw = runif(1, 0, 0.3),
+      covC35_raw = runif(1, 0, 0.3),
+      z = ifelse(is.na(Y[, 1]), 0L, as.integer(Y[, 1]))
+    )
+  }
+  
+  parametros <- c("pi", "Se", "Sp",
+                  "covS23", "covS25", "covS35",
+                  "covC23", "covC25", "covC35")
+  
+  set.seed(2024)
+  fit <- jags(
+    data               = datos_jags,
+    inits              = iniciales,
+    parameters.to.save = parametros,
+    model.file         = modelo_file_B,
+    n.chains           = 3,
+    n.iter             = 25000,
+    n.burnin           = 7500,
+    n.thin             = 5,
+    progress.bar       = "text"
+  )
+  
+  cat("\nR-hat maximo:",
+      round(max(fit$BUGSoutput$summary[, "Rhat"],
+                na.rm = TRUE), 3), "\n")
+  cat("(debe ser < 1.05)\n")
+  
+  return(fit)
+}
+
+# ── 7. Correr ambas fases ────────────────────────────────────
+fit_B_aguda <- correr_modelo_B(Y_aguda, "Fase aguda")
+fit_B_conv  <- correr_modelo_B(Y_conv,  "Fase convaleciente")
+
