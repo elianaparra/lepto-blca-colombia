@@ -6,11 +6,6 @@ Analysis code for the study:
 > Parra Barrera EL, Marshal G, Bello S, Salas D, Duarte C, Moreno J, Galloway R, Walke H, Undurraga E, Schafer I.
 > (under review, 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-> **TODO before release:** replace `XXXXXXX` (Zenodo DOI), `<user>` (GitHub username) and `XXXXX` (OSF project id) throughout this file, in `CITATION.cff` and in `.zenodo.json`.
-
 ---
 
 ## Overview
