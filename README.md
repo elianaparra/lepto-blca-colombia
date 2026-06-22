@@ -145,4 +145,4 @@ Code is released under the MIT License (see `LICENSE`).
 ## Contact
 
 Eliana L. Parra Barrera — Pontificia Universidad Católica de Chile / Instituto Nacional
-de Salud, Colombia. *(add corresponding-author email before release.)*
+de Salud, Colombia. *(elparra@uc.cl)*
