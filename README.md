@@ -18,14 +18,14 @@ The analysis combines:
 
 - **Classical (frequentist) accuracy** against the combined MAT result as the
   operational reference standard (sensitivity, specificity, PPV, NPV with exact 95% CIs).
-- **Bayesian Latent Class Analysis (BLCA)** estimating true sensitivity, specificity and
+- **Bayesian Latent Class Analysis (BLCA)** estimating true sensitivity, specificity, and
   prevalence without assuming any single test (including MAT) is a perfect reference,
   under two model structures (conditional independence and conditional dependence),
   compared by DIC.
 - **Secondary analysis** using phase-specific MAT references (MAT-acute, MAT-convalescent).
-- **Prior sensitivity analysis** (skeptical / neutral / optimistic scenarios).
+- **Prior sensitivity analysis** (skeptical/neutral/optimistic scenarios).
 - **ROC / AUC analysis** of the Panbio® IgM ELISA (Youden-optimal cut-off; DeLong
-  comparison between phases; AUC by days from symptom onset).
+  Comparison between phases; AUC by days from symptom onset.
 - A **Stan replication** of the BLCA models to assess robustness to the MCMC software.
 
 Reporting follows the STARD-BLCM guideline.
