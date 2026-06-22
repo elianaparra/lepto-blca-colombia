@@ -1,0 +1,42 @@
+# ---- Data: never commit raw / individual-level data ----
+data/*
+!data/README.md
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.sav
+*.dta
+*.rds
+*.RData
+
+# ---- R ----
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# ---- renv (uncomment if you adopt renv) ----
+# renv/library/
+# renv/local/
+# renv/cellar/
+# renv/lock/
+
+# ---- Stan compiled artifacts ----
+*.o
+*.so
+*.dll
+*.stanbin
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+*~
+.Rapp.history
+
+# ---- Outputs you may NOT want tracked (optional) ----
+# outputs/figures/*
+# outputs/tables/*
+# !outputs/figures/.gitkeep
+# !outputs/tables/.gitkeep

@@ -1,0 +1,85 @@
+cff-version: 1.2.0
+title: >-
+  Code for "Evaluation of three rapid diagnostic tests and IgM ELISA for
+  human leptospirosis in Colombia: a Bayesian Latent Class Analysis"
+message: >-
+  If you use this software, please cite both the software and the
+  associated article (see preferred-citation below).
+type: software
+authors:
+  - given-names: Eliana L.
+    family-names: Parra Barrera
+    affiliation: >-
+      Pontificia Universidad Católica de Chile, Chile; Instituto Nacional de
+      Salud, Colombia
+    # orcid: 'https://orcid.org/0000-0000-0000-0000'   # add before release
+  - given-names: Guillermo
+    family-names: Marshal
+    affiliation: Pontificia Universidad Católica de Chile, Chile
+  - given-names: Solmara
+    family-names: Bello
+    affiliation: Instituto Nacional de Salud, Colombia
+  - given-names: Daniela
+    family-names: Salas
+    affiliation: Instituto Nacional de Salud, Colombia
+  - given-names: Carolina
+    family-names: Duarte
+    affiliation: Instituto Nacional de Salud, Colombia
+  - given-names: Jaime
+    family-names: Moreno
+    affiliation: Instituto Nacional de Salud, Colombia
+  - given-names: Renee
+    family-names: Galloway
+    affiliation: U.S. Centers for Disease Control and Prevention, USA
+  - given-names: Henry
+    family-names: Walke
+    affiliation: U.S. Centers for Disease Control and Prevention, USA
+  - given-names: Eduardo
+    family-names: Undurraga
+    affiliation: Pontificia Universidad Católica de Chile, Chile
+  - given-names: Ilana
+    family-names: Schafer
+    affiliation: U.S. Centers for Disease Control and Prevention, USA
+repository-code: 'https://github.com/<user>/lepto-blca-colombia'
+url: 'https://osf.io/XXXXX/'
+license: MIT
+version: 1.0.0
+date-released: '2026-01-01'   # update to the release date
+keywords:
+  - leptospirosis
+  - Bayesian latent class analysis
+  - diagnostic accuracy
+  - rapid diagnostic tests
+  - IgM ELISA
+  - Colombia
+  - JAGS
+  - Stan
+preferred-citation:
+  type: article
+  title: >-
+    Evaluation of three rapid diagnostic tests and IgM ELISA for human
+    leptospirosis in Colombia: a Bayesian Latent Class Analysis
+  authors:
+    - given-names: Eliana L.
+      family-names: Parra Barrera
+    - given-names: Guillermo
+      family-names: Marshal
+    - given-names: Solmara
+      family-names: Bello
+    - given-names: Daniela
+      family-names: Salas
+    - given-names: Carolina
+      family-names: Duarte
+    - given-names: Jaime
+      family-names: Moreno
+    - given-names: Renee
+      family-names: Galloway
+    - given-names: Henry
+      family-names: Walke
+    - given-names: Eduardo
+      family-names: Undurraga
+    - given-names: Ilana
+      family-names: Schafer
+  journal: PLOS Neglected Tropical Diseases
+  year: 2026
+  # doi: '10.1371/journal.pntd.XXXXXXX'   # add on acceptance

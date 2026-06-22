@@ -1,0 +1,36 @@
+{
+  "title": "Code for \"Evaluation of three rapid diagnostic tests and IgM ELISA for human leptospirosis in Colombia: a Bayesian Latent Class Analysis\"",
+  "upload_type": "software",
+  "description": "Analysis code (classical accuracy, Bayesian Latent Class Analysis in JAGS and Stan, prior sensitivity analysis, phase-specific MAT secondary analysis, and ROC/AUC analysis) for the evaluation of three rapid diagnostic tests and the Panbio IgM ELISA for human leptospirosis in Colombia (2015-2018), using 479 paired serum samples. No individual-level data are included.",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    { "name": "Parra Barrera, Eliana L.", "affiliation": "Pontificia Universidad Catolica de Chile; Instituto Nacional de Salud, Colombia" },
+    { "name": "Marshal, Guillermo", "affiliation": "Pontificia Universidad Catolica de Chile" },
+    { "name": "Bello, Solmara", "affiliation": "Instituto Nacional de Salud, Colombia" },
+    { "name": "Salas, Daniela", "affiliation": "Instituto Nacional de Salud, Colombia" },
+    { "name": "Duarte, Carolina", "affiliation": "Instituto Nacional de Salud, Colombia" },
+    { "name": "Moreno, Jaime", "affiliation": "Instituto Nacional de Salud, Colombia" },
+    { "name": "Galloway, Renee", "affiliation": "U.S. Centers for Disease Control and Prevention" },
+    { "name": "Walke, Henry", "affiliation": "U.S. Centers for Disease Control and Prevention" },
+    { "name": "Undurraga, Eduardo", "affiliation": "Pontificia Universidad Catolica de Chile" },
+    { "name": "Schafer, Ilana", "affiliation": "U.S. Centers for Disease Control and Prevention" }
+  ],
+  "keywords": [
+    "leptospirosis",
+    "Bayesian latent class analysis",
+    "diagnostic accuracy",
+    "rapid diagnostic tests",
+    "IgM ELISA",
+    "Colombia",
+    "JAGS",
+    "Stan"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "10.1371/journal.pntd.XXXXXXX",
+      "resource_type": "publication-article"
+    }
+  ]
+}
