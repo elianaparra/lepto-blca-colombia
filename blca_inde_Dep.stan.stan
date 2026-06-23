@@ -16,6 +16,8 @@ check_cmdstan_toolchain(fix = TRUE)
 print(fit$summary())
 install_cmdstan()
 cmdstanr::cmdstan_version()
+
+
 ## Carpetas
 dir.create("data")
 dir.create("output")
@@ -656,5 +658,10 @@ resumen_dep_conv <- summary(fit_dep_conv_final, pars = pars_dep,
 cat("\nR-hat maximo:", round(max(resumen_dep_conv[,"Rhat"]), 4), "\n\n")
 print(round(resumen_dep_conv[,c("2.5%","50%","97.5%","Rhat")], 4))
 
+saveRDS(fit_dep_conv_final, "output/fit_stan_dependencia_conv_FINAL.rds")
+cat("\n✓ Guardado - ESTA ES LA ULTIMA CORRIDA\n")
+
+
+read.csv("outputs/Table_accuracy_by_phase.csv")
 
 
