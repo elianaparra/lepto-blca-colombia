@@ -12,17 +12,94 @@
 #   - informative priors on Se[t], Sp[t], pi (Supplementary Table S1)
 # ============================================================
 
-# model {
-#   for (i in 1:N) {
-#     d[i] ~ dbern(pi)
-#     for (t in 1:T) {
-#       p[i,t] <- d[i]*Se[t] + (1 - d[i])*(1 - Sp[t])
-#       y[i,t] ~ dbern(p[i,t])
-#     }
-#   }
-#   pi ~ dbeta(., .)
-#   for (t in 1:T) {
-#     Se[t] ~ dbeta(., .)
-#     Sp[t] ~ dbeta(., .)
-#   }
-# }
+## ---------------------------------------------------------------------------
+T_acute <- as.matrix(datos[, c("elisaa", "lifea", "sda", "lepa", "MAT")])
+
+jags_data <- list(
+  T = T_acute,
+  N = nrow(T_acute),
+  J = ncol(T_acute)
+)
+
+# ---------------------------------------------------------------------------
+#  MODEL JAGS — INDEPENDENCE CONDITIONAL
+#    
+# ---------------------------------------------------------------------------
+dir.create("models", showWarnings = FALSE)
+
+modelo_indep <- "
+model {
+  for (i in 1:N) {
+    D[i] ~ dbern(pi)
+    for (j in 1:J) {
+      p[i,j] <- D[i] * Se[j] + (1 - D[i]) * (1 - Sp[j])
+      T[i,j] ~ dbern(p[i,j])
+    }
+  }
+
+  # Prevalencia verdadera
+  pi ~ dbeta(2, 6)
+
+  # Priors Se / Sp  (1=ELISA 2=LifeAssay 3=SD Bioline 4=Leptocheck 5=MAT)
+  Se[1] ~ dbeta(8, 4);   Sp[1] ~ dbeta(12, 3)   # ELISA IgM
+  Se[2] ~ dbeta(8, 4);   Sp[2] ~ dbeta(12, 3)   # LifeAssay
+  Se[3] ~ dbeta(4, 8);   Sp[3] ~ dbeta(12, 3)   # SD Bioline
+  Se[4] ~ dbeta(8, 4);   Sp[4] ~ dbeta(12, 3)   # Leptocheck-WB
+  Se[5] ~ dbeta(4, 6);   Sp[5] ~ dbeta(47, 1)   # MAT
+}
+"
+writeLines(modelo_indep, "models/blca_indep_acute.txt")
+
+# ---------------------------------------------------------------------------
+# MCMC
+# ---------------------------------------------------------------------------
+params <- c("Se", "Sp", "pi")
+set.seed(2025)
+
+fit_indep_acute <- jags(
+  data               = jags_data,
+  parameters.to.save = params,
+  model.file         = "models/blca_indep_acute.txt",
+  n.chains           = 3,
+  n.iter             = 20000,
+  n.burnin           = 5000,
+  n.thin             = 5
+)
+
+# ---------------------------------------------------------------------------
+# CONVERGENCe (Gelman-Rubin: < 1.05)
+# ---------------------------------------------------------------------------
+conv <- fit_indep_acute$BUGSoutput$summary[, c("mean", "2.5%", "97.5%", "Rhat", "n.eff")]
+print(round(conv, 4))
+stopifnot(all(fit_indep_acute$BUGSoutput$summary[, "Rhat"] < 1.05))
+
+# ---------------------------------------------------------------------------
+# Results
+# ---------------------------------------------------------------------------
+resumen <- fit_indep_acute$BUGSoutput$summary[, c("50%", "2.5%", "97.5%")]
+
+fmt_blca <- function(param) {
+  v <- resumen[param, ] * 100
+  sprintf("%.1f (%.1f-%.1f)", v["50%"], v["2.5%"], v["97.5%"])
+}
+
+tests <- c("ELISA IgM Panbio", "LifeAssay Test-It IgM", "SD Bioline IgG/IgM",
+           "Leptocheck-WB", "MAT")
+
+blca_indep_acute <- data.frame(
+  Test        = tests,
+  Sensitivity = sapply(paste0("Se[", 1:5, "]"), fmt_blca),
+  Specificity = sapply(paste0("Sp[", 1:5, "]"), fmt_blca),
+  stringsAsFactors = FALSE,
+  row.names = NULL
+)
+print(blca_indep_acute)
+
+# ---------------------------------------------------------------------------
+# Keep
+# ---------------------------------------------------------------------------
+dir.create("outputs", showWarnings = FALSE)
+write.csv(blca_indep_acute, "outputs/blca_indep_acute.csv",
+          row.names = FALSE, fileEncoding = "UTF-8")
+
+# ============================================================================
