@@ -105,18 +105,18 @@ hacer_patron <- function(Y) {
   )
 }
 
-# ── 5. Guardar modelo ────────────────────────────────────────
+# ── 5. Keep ────────────────────────────────────────
 modelo_file_B <- tempfile(fileext = ".txt")
 writeLines(modelo_B_txt, modelo_file_B)
 
-# ── 6. Funcion para correr Modelo B ──────────────────────────
+# ── 6. Funtion ──────────────────────────
 correr_modelo_B <- function(Y, label) {
   
   cat("\n====================================\n")
   cat("Corriendo Modelo B —", label, "\n")
   cat("====================================\n")
   
-  # Preparar vectores manejando NA
+  # Vectors
   y_mat <- ifelse(is.na(Y[, 1]), NA_integer_, as.integer(Y[, 1]))
   y_sd  <- ifelse(is.na(Y[, 4]), NA_integer_, as.integer(Y[, 4]))
   
@@ -171,7 +171,7 @@ correr_modelo_B <- function(Y, label) {
   return(fit)
 }
 
-# ── 7. Correr ambas fases ────────────────────────────────────
+# ── Both ────────────────────────────────────
 fit_B_aguda <- correr_modelo_B(Y_aguda, "Fase aguda")
 fit_B_conv  <- correr_modelo_B(Y_conv,  "Fase convaleciente")
 
