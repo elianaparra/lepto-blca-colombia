@@ -54,32 +54,6 @@ keywords:
   - Colombia
   - JAGS
   - Stan
-preferred-citation:
-  type: article
-  title: >-
-    Evaluation of three rapid diagnostic tests and IgM ELISA for human
-    leptospirosis in Colombia: a Bayesian Latent Class Analysis
-  authors:
-    - given-names: Eliana L.
-      family-names: Parra Barrera
-    - given-names: Guillermo
-      family-names: Marshal
-    - given-names: Solmara
-      family-names: Bello
-    - given-names: Daniela
-      family-names: Salas
-    - given-names: Carolina
-      family-names: Duarte
-    - given-names: Jaime
-      family-names: Moreno
-    - given-names: Renee
-      family-names: Galloway
-    - given-names: Henry
-      family-names: Walke
-    - given-names: Eduardo
-      family-names: Undurraga
-    - given-names: Ilana
-      family-names: Schafer
-  journal: PLOS Neglected Tropical Diseases
+  journal: NA (In Revision)
   year: 2026
-  # doi: '10.1371/journal.pntd.XXXXXXX'   # add on acceptance
+
