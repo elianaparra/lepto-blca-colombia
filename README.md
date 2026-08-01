@@ -131,8 +131,7 @@ Helsinki.
 
 ## How to cite
 
-Please cite both the article and this software (see `CITATION.cff`). Once the Zenodo
-archive is created, cite the version DOI shown on the Zenodo record.
+Please cite both the article and this software (see `CITATION.cff`). 
 
 ---
 
